@@ -14,9 +14,12 @@ opt.StepRatio = 0.1;
 
 figSMSE = zeros(length(outputnum), epochs);
 figMMSE = zeros(length(outputnum), epochs);
+timeVec = zeros(1,length(outputnum));
 for h_nodes = 1:length(outputnum)
+    tic
     rbm = randRBM(inputnum, outputnum(h_nodes));
     [rbm, figSMSE(h_nodes,:), figMMSE(h_nodes,:)] = pretrainRBM(rbm, bindata_trn, opt);
+    timeVec(h_nodes) = toc;
 
     if h_nodes == 1 || h_nodes == 3
         numHidden = outputnum(h_nodes);
