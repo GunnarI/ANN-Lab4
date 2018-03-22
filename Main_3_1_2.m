@@ -12,8 +12,8 @@ importdata('binMNIST');
 %% Define constants
 
 epochs = 75;
-%hidden_size = [50 75 100 150];
-hidden_size = 100;
+hidden_size = [50 75 100 150];
+%hidden_size = 100;
 bindata_err = zeros(size(hidden_size));
 
 %% Train the network
@@ -33,7 +33,7 @@ for h = 1:length(hidden_size)
     autoenc = trainAutoencoder(bindata_trn,hidden_size(h),enc);
     weights = autoenc.EncoderWeights;
     traindata_rec = predict(autoenc, bindata_trn);
-    %bindata_err(h) = mean(mean((bindata_trn - bindata_rec).^2));
+    bindata_err(h) = mean(mean((bindata_trn - traindata_rec).^2));
     
     %Test of the autoencoder
     testdata_rec = predict(autoenc, bindata_tst);
@@ -58,9 +58,9 @@ end
 
 
 %% Plot the weights
-for i = 1:hidden_size
-    figure(3)
-    subplot(10,10,i)
-    imshow(reshape(weights(i,:),28,28)')
-    title(['Node ',num2str(i)],'FontSize',6)
-end
+% for i = 1:hidden_size
+%     figure(3)
+%     subplot(10,10,i)
+%     imshow(reshape(weights(i,:),28,28)')
+%     title(['Node ',num2str(i)],'FontSize',6)
+% end
